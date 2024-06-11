@@ -3,15 +3,13 @@
 %% Parameters
 clc;
 clear all;
-g = 9.81;
+
 Mw = 0.55;
 Mp = 0.14;
 Jw = 4.36*10^(-3);
 Jp = 0.69*10^(-3);
 L = 0.22;
 Lp = 0.11;
-Jt = Mp*(Lp^(2)) + Mw*(L^(2)) + Jp;
-Mt = (Lp*Mp+L*Mw)*g;
 
 
 theta_Q = 15*pi/180;
@@ -22,10 +20,8 @@ dt = 1/Fs;
 N = 50;
 t = dt*(0:N-1);
 
-% Condiciones iniciales
 theta_0 = 0;
 beta_0 = 0;
-
 %%
 f1 = figure;
 hold on;
@@ -59,10 +55,8 @@ xlim([-0.6 0.6]);
 ylim([-0.1 0.6]);
 set(gcf,'Position',[10 900 800 400])
 
-
-
 %%
-%{
+
 angles = [0:1:45,44:-1:-45,-44:1:45, 44:-1:-45,-44:1:45];
 
 for k=1:length(angles)
@@ -87,6 +81,4 @@ for k=1:length(angles)
     set(wheel, 'Position',pos_wheel,'Curvature',[1 1]);
     drawnow;
     % pause(1/1000);
-
 end
-%}
