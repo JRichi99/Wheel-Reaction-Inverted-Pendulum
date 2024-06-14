@@ -14,4 +14,4 @@ $\hat{\theta}:\quad \frac{\delta}{\delta t}\frac{\delta\mathcal{L}}{\delta\dot{\
 $\hat{\beta}:\quad \frac{\delta}{\delta t}\frac{\delta\mathcal{L}}{\delta\dot{\beta}} - \frac{\delta\mathcal{L}}{\delta\beta} = J_w\ddot{\beta} = -\tau$
 ### 6. Función de Transferencia
 $\Theta = \frac{-1}{J_ts^2-M_t}$\
-$\Beta = \frac{1}{J_ws^2}$
+$B = \frac{1}{J_ws^2}$
