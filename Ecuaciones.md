@@ -20,6 +20,6 @@ $\hat{\beta}:\quad \frac{\delta}{\delta t}\frac{\delta\mathcal{L}}{\delta\dot{\b
 ### 6. Función de Transferencia
 $\Theta = \frac{-1}{J_ts^2-M_t}$\
 $B = \frac{1}{J_ws^2}$
-hola
+
 ### 7. Diseño del controlador PID
 G_c(s) = K_P + \frac{K_I}{s} + K_Ds
