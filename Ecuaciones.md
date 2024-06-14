@@ -21,5 +21,13 @@ $\hat{\beta}:\quad \frac{\delta}{\delta t}\frac{\delta\mathcal{L}}{\delta\dot{\b
 $\Theta = \frac{-1}{J_ts^2-M_t}$\
 $B = \frac{1}{J_ws^2}$
 
-### 7. Diseño del controlador PID
-G_c(s) = K_P + \frac{K_I}{s} + K_Ds
+### 8. Lugar geométrico de las raíces
+Para $\Theta$ se obtiene dos polos en:\
+$s = \pm\sqrt{\frac{M_t}{J_t}}$\
+Como unos de los polos es positivo, entonces el sistema es inestable. Para poder estabilizarlo...
+
+
+### 7. Diseño del controlador PID Clásico
+Se incluye el siguiente controlador:\
+$G_c(s) = K_P + \frac{K_I}{s} + K_Ds$\
+Utilizando el método de Ziegler-Nicholds no se logra estabilizar el sistema.

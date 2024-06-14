@@ -9,3 +9,4 @@ Lp = 0.11;
 Jt = Mp*(Lp^(2)) + Mw*(L^(2)) + Jp;
 Mt = (Lp*Mp+L*Mw)*g;
 
+sqrt(Mt/Jt)
