@@ -13,3 +13,5 @@ $\mathcal{L} = \frac{1}{2}(M_pL_p^2\dot{\theta}^2 + M_wL^2\dot{\theta}^2 + J_p\d
 $\hat{\theta}:\quad \frac{\delta}{\delta t}\frac{\delta\mathcal{L}}{\delta\dot{\theta}} - \frac{\delta\mathcal{L}}{\delta\theta} = (M_pL_p^2+M_wL^2+J_p)\ddot{\theta} - g(L_pM_p+LM_w)\sin{\theta} = -\tau$\
 $\hat{\beta}:\quad \frac{\delta}{\delta t}\frac{\delta\mathcal{L}}{\delta\dot{\beta}} - \frac{\delta\mathcal{L}}{\delta\beta} = J_w\ddot{\beta} = -\tau$
 ### 6. Función de Transferencia
+$\Theta = \frac{-1}{J_ts^2-M_t}$
+$\Beta$ = \frac{1}{J_ws^2}$

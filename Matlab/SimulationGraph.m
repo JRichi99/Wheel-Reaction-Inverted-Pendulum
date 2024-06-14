@@ -18,7 +18,7 @@ r = (L - Lp)/2;
 
 
 %% Condiciones iniciales
-theta_0 = deg2rad(0);
+theta_0 = deg2rad(10);
 tin = 0;
 
 dtheta_0 = 0;
