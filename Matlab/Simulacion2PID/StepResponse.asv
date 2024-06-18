@@ -1,0 +1,17 @@
+clear
+clc
+planta = tf(-1,[0.029 0 -1.3381]);
+gain = 6;
+controller = pid(-2.226*gain,0,-0.1925*gain);
+controller2 = pid(-8.455,-0.845,-0.79695);
+sist = series(controller,planta);
+sist2 = series(controller2,planta);
+sist_lc=feedback(sist,1);
+sist2_lc=feedback(sist,1);
+[respuesta, tiempo] = step(sist2_lc,50);
+% Graficar la respuesta
+figure;
+plot(tiempo, respuesta);
+title('Respuesta del Sistema a una Entrada Escalón Unitario');
+xlabel('Tiempo (segundos)');
+ylabel('Amplitud');

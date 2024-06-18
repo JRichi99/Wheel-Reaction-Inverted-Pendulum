@@ -16,9 +16,13 @@ Jt = Mp*(Lp^(2)) + Mw*(L^(2)) + Jp;
 Mt = (Lp*Mp+L*Mw)*g;
 r = (L - Lp)/2;
 
+%Intentamos controlador:
+Kp1= -53.67
+Ki1= -15.657;
+Kd1= -4.933;
 
 %% Condiciones iniciales
-theta_0 = deg2rad(0);
+theta_0 = deg2rad(10);
 tin = 0;
 
 dtheta_0 = 0;
@@ -52,12 +56,18 @@ axis(gca,'equal');
 xlim([-0.6 0.6]);
 ylim([-0.4 0.6]);
 
+texto_handle = text(0.05, 0.95, 'Time: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
+
 
 tspan = 0.01;
 tiempo = 0;
 
-while true
+cerrar = false;
 
+while ~cerrar
+    % Tiempo
+    tiempo = tiempo + tspan;
+    texto = ['Time: ', num2str(tiempo)];
     % Obtencion de variables
     [~,ftheta] = ode45(@(t,y) pendulumODE(t,y,Jt,Mt,tin),[0 tspan], vtheta_0);
     [~,fbeta] = ode45(@(t,y) wheelODE(t,y,Jw,tin),[0 tspan], vbeta_0);
@@ -76,6 +86,7 @@ while true
     vbeta_0 = vbeta;
 
     % Dibujar
+    set(texto_handle, 'String', texto);
     set(pendulum,'XData',[0, xw],'YData',[0, yw]);
     set(radious,'XData',[xw, xw_end], 'YData', [yw, yw_end]);
     set(wheel, 'Position',pos_wheel,'Curvature',[1 1]);
