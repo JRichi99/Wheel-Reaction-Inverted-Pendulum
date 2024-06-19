@@ -1,3 +1,4 @@
+% main
 clc;
 clear all;
 
@@ -14,13 +15,13 @@ Jt = Mp*(Lp^(2)) + Mw*(L^(2)) + Jp;
 Mt = (Lp*Mp+L*Mw)*g;
 r = (L - Lp)/2;
 
-% Lead-Lag Controller Parameters
-K = -10; % Adjusted gain
-T1 = 0.1; % Lead time constant
-T2 = 0.5; % Lag time constant
+%Intentamos controlador funciona pls:
+Kp1= -53.67;
+Ki1= -15.657;
+Kd1= -4.933;
 
 %% Condiciones iniciales
-theta_0 = deg2rad(90);
+theta_0 = deg2rad(-120);
 tin = 0;
 
 dtheta_0 = 0;
@@ -31,6 +32,7 @@ vbeta_0 =[beta_0 dbeta_0];
 
 error_prev = 0;
 integral_error = 0;
+
 
 %% Seteo inicial del grafico
 f1 = figure;
@@ -69,6 +71,10 @@ tiempo = 0;
 cerrar = false;
 cap = 25;
 
+agp = 1;
+agi = 1;
+agd = 0.95;
+
 while ~cerrar
     % Tiempo
     tiempo = tiempo + tspan;
@@ -83,21 +89,20 @@ while ~cerrar
         continue
     end
 
-    % Lead-Lag Controller
-    error = 0-vtheta_0(1); % Desired angle of the pendulum is 0
+    % Controlador PID
+    error = 0-vtheta_0(1); % Deseamos que el ángulo del péndulo sea 0
     error_texto = ['error: ', num2str(error)];
     integral_error = integral_error + error * tspan;
     error_ac_texto = ['error acum: ', num2str(integral_error)];
     derivative_error = (error - error_prev) / tspan;
     error_ant_texto = ['error prev: ', num2str(derivative_error)];
-    
-    % Lead-Lag control action
-    tin = K * ((T1*derivative_error + error) / (T2*derivative_error + 1));
+    tin = (Kp1*agp * error + Ki1*agi * integral_error + Kd1*agd * derivative_error);
     
     tin = max(min(tin, cap), -cap);
     tin_texto = ['Tin: ', num2str(tin)];
 
     error_prev = error;
+
 
     % Obtencion de variables
     [~,ftheta] = ode45(@(t,y) pendulumODE(t,y,Jt,Mt,tin),[0 tspan], vtheta_0);
