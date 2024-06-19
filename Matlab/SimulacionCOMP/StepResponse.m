@@ -1,7 +1,7 @@
 
 
 % Lead-Lag Controller Parameters
-K = -10; % Adjusted gain
+K = -5.5; % Adjusted gain
 T1 = 0.1; % Lead time constant
 T2 = 0.5; % Lag time constant
 
