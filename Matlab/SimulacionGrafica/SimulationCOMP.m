@@ -67,7 +67,7 @@ tspan = 0.01;
 tiempo = 0;
 
 cerrar = false;
-cap = 25;
+cap = 100;
 
 while ~cerrar
     % Tiempo

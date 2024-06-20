@@ -18,7 +18,7 @@ r = (L - Lp)/2;
 %Intentamos controlador funciona pls:
 Kp1= -53.67;
 Ki1= -15.657;
-Kd1= -4.933;
+Kd1= -4.68635;
 
 %% Condiciones iniciales
 theta_0 = deg2rad(-120);
@@ -69,11 +69,17 @@ tspan = 0.01;
 tiempo = 0;
 
 cerrar = false;
-cap = 25;
+cap = 100;
 
 agp = 1;
 agi = 1;
-agd = 0.95;
+agd = 1;
+
+Wp = 50;
+Psin = 0;
+Pimp = 0;
+
+
 
 while ~cerrar
     % Tiempo
@@ -102,6 +108,21 @@ while ~cerrar
     tin_texto = ['Tin: ', num2str(tin)];
 
     error_prev = error;
+
+    % Aplicar perturbaciones
+    random_number = rand;
+
+    timp = 0;
+
+    if random_number < 0.05
+        timp = Pimp;
+    end 
+    
+    if random_number > 0.95
+        timp = Pimp *-1;
+    end
+
+    tin = tin + timp + sin(Wp*tiempo)*Psin;
 
 
     % Obtencion de variables
