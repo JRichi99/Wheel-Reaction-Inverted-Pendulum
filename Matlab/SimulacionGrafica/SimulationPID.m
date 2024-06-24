@@ -16,9 +16,9 @@ Mt = (Lp*Mp+L*Mw)*g;
 r = (L - Lp)/2;
 
 %Intentamos controlador funciona pls:
-Kp1= -53.67;
-Ki1= -15.657;
-Kd1= -4.68635;
+Kp1= -28.89;
+Ki1= -8.427;
+Kd1= -2.655;
 
 %% Condiciones iniciales
 theta_0 = deg2rad(-120);
@@ -76,7 +76,7 @@ agi = 1;
 agd = 1;
 
 Wp = 50;
-Psin = 0;
+Psin = 10;
 Pimp = 0;
 
 

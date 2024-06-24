@@ -5,7 +5,7 @@ planta = tf(-1,[0.029 0 -1.3381]);
 %% Opcion 1 
 %controller = pid(-53.67,-150.657,-4.933);
 %% Opcion 2
-controller = pid(-53.67,-15.657,-4.933);
+controller = pid(-28.89,-8.427,-2.655);
 sist = series(controller,planta);
 sist_lc=feedback(sist,1);
-stepplot(sist_lc,50)
+stepplot(sist_lc,5)
