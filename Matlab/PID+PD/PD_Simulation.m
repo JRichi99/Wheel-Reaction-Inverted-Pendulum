@@ -16,12 +16,13 @@ r = (L - Lp)/2;
 
 %% Lead-Lag Controller Parameters
 
+K = 1.26;
 KP = -5.5;
 KD = -0.55;
 
 %% Condiciones iniciales
 
-theta_0 = deg2rad(180);
+theta_0 = deg2rad(90);
 tin = 0;
 
 dtheta_0 = 0;
@@ -61,8 +62,7 @@ ylim([-0.4 0.6]);
 texto_handle = text(0.05, 0.95, 'Time: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
 texto2_handle = text(0.75, 0.95, 'Tin: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
 texto3_handle = text(0.75, 0.85, 'error: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
-texto4_handle = text(0.75, 0.75, 'error_acum: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
-texto5_handle = text(0.75, 0.65, 'error_prev: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
+texto5_handle = text(0.75, 0.75, 'error prev: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
 
 tspan = 0.01;
 tiempo = 0;
@@ -87,12 +87,11 @@ while ~cerrar
     % Lead-Lag Controller
     error = 0-vtheta_0(1); % Desired angle of the pendulum is 0
     error_texto = ['error: ', num2str(error)];
-    error_ac_texto = ['error acum: ', num2str(integral_error)];
     derivative_error = (error - error_prev) / tspan;
     error_ant_texto = ['error prev: ', num2str(derivative_error)];
     
     % Lead-Lag control action
-    tin = KD*derivative_error + KP*error;
+    tin = K*(KD*derivative_error + KP*error);
     tin = max(min(tin, cap), -cap);
     tin_texto = ['Tin: ', num2str(tin)];
 
@@ -119,7 +118,6 @@ while ~cerrar
     set(texto_handle, 'String', time_texto);
     set(texto2_handle,'String', tin_texto);
     set(texto3_handle,'String', error_texto);
-    set(texto4_handle,'String', error_ac_texto);
     set(texto5_handle,'String', error_ant_texto);
 
     set(pendulum,'XData',[0, xw],'YData',[0, yw]);

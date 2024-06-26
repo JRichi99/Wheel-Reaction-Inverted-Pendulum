@@ -1,4 +1,4 @@
-% Lead-Lag Controller Parameters
+% PD Controller Parameters
 KP = -5.5;
 KD = -0.55;
 planta_num = -1;
