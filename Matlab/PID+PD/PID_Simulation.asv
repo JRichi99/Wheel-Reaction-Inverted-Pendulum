@@ -15,8 +15,8 @@ Jt = Mp*(Lp^(2)) + Mw*(L^(2)) + Jp;
 Mt = (Lp*Mp+L*Mw)*g;
 r = (L - Lp)/2;
 
-% %Intentamos controlador funciona pls:
-Kp1= -53.67;
+%Intentamos controlador funciona pls:
+Kp1= -28;
 Ki1= -15.657;
 Kd1= -4.68635;
 
@@ -78,23 +78,23 @@ tspan = 0.01;
 tiempo = 0;
 
 cerrar = false;
-cap = 50;
+cap = 100;
 
 agp = 1;
 agi = 1;
 agd = 1;
 
 Wp = 50;
-Psin = 10;
+Psin = 0;
 Pimp = 0;
 
 ref = deg2rad(0);
 
-while tiempo < 5
+while tiempo < 4
     % Tiempo
     tiempo = tiempo + tspan;
     time_texto = ['Time: ', num2str(tiempo)];
-    if tiempo < 0.5
+    if tiempo < 1
         % Dibujar
         set(texto_handle, 'String', time_texto);  
         set(pendulum,'XData',[0, xw],'YData',[0, yw]);
@@ -123,11 +123,11 @@ while tiempo < 5
 
     timp = 0;
 
-    if random_number < 0.02
+    if random_number < 0.05
         timp = Pimp;
     end 
     
-    if random_number > 0.98
+    if random_number > 0.95
         timp = Pimp *-1;
     end
     tp = timp + sin(Wp*tiempo)*Psin;
@@ -175,17 +175,6 @@ end
 
 figure(2);
 plot(time_values,theta_values,'b',time_values,ref_values,'r--');
-title('Theta vs tiempo')
-figure(3);
-plot(time_values,tc_values);
-title('control vs tiempo')
-figure(4);
-plot(time_values, pert_values)
-title('perturbacion vs tiempo')
-figure(5);
-Z = 0 * ones(1, length(time_values));
-plot(time_values, error_values, time_values,Z,'r--');
-title('error vs tiempo');
 
 
 function [x_cwheel, y_cwheel] = PosCWheel(arm,theta)
