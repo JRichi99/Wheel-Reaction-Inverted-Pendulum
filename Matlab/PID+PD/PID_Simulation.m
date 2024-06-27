@@ -16,9 +16,9 @@ Mt = (Lp*Mp+L*Mw)*g;
 r = (L - Lp)/2;
 
 % Parametros del controlador
-Kp1= -53.67;
-Ki1= -15.657;
-Kd1= -4.68635;
+Kp1= -55;  % Opciones -55 | -53.67
+Ki1= -15.657; % Opciones 0 | -15.657
+Kd1= -2.2; % Opciones -2.2 | -4.68635
 cap = 50; % Limite de la accion del controlador
 agp = 1;
 agi = 1;
@@ -85,7 +85,7 @@ tiempo = 0; % Tiempo inicial
 
 %% Parametros del ruido
 Wp = 50; % Frecuencia de la onda sinusoidal
-Psin = 10; % Ganancia onda sinusoidal
+Psin = 0; % Ganancia onda sinusoidal
 Pimp = 0; % Magnitud impulso 
 
 
