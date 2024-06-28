@@ -16,13 +16,13 @@ r = (L - Lp)/2;
 
 %% Lead-Lag Controller Parameters
 
-K = 1.26;
+K = 8;
 KP = -5.5;
 KD = -0.55;
 
 %% Condiciones iniciales
 
-theta_0 = deg2rad(90);
+theta_0 = deg2rad(70);
 tin = 0;
 
 dtheta_0 = 0;

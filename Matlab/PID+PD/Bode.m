@@ -1,6 +1,6 @@
 planta = tf(-1,[0.029 0 -1.3381]);
 PID = pid(-53.67,-15.657,-4.8635);
-PD = pid(-55,0,-5.5);
+PD = pid(-55,0,-2.2);
 sist_PID = series(PID, planta);
 sist_PD = series(PD, planta);
 
