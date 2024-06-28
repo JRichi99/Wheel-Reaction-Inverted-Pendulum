@@ -16,24 +16,13 @@ Mt = (Lp*Mp+L*Mw)*g;
 r = (L - Lp)/2;
 
 % Parametros del controlador
-Kp1= -55;  % Opciones -55 | -53.67
+Kp1= -53.67;  % Opciones -55 | -53.67
 Ki1= -15.657; % Opciones 0 | -15.657
-Kd1= -2.2; % Opciones -2.2 | -4.68635
+Kd1= -4.68635; % Opciones -2.2 | -4.68635
 cap = 50; % Limite de la accion del controlador
 agp = 1;
 agi = 1;
 agd = 1;
-
-
-% Almacenar variables en el tiepo
-
-ref_values = [];
-error_values = [];
-theta_values = [];
-tc_values = [];
-pert_values = [];
-time_values = [];
-
 
 % Condiciones iniciales del sistema
 theta_0 = deg2rad(180);
@@ -47,22 +36,29 @@ dbeta_0 = 0;
 vtheta_0 = [theta_0 dtheta_0];
 vbeta_0 =[beta_0 dbeta_0];
 
+% Almacenar variables en el tiepo
+
+ref_values = [ref];
+error_values = [ref-theta_0];
+theta_values = [theta_0];
+tc_values = [0];
+pert_values = [0];
+time_values = [0];
+
 % Condiciones iniciales del error
 error_prev = 0;
 integral_error = 0;
 
-%% Seteo simulacion
-% Seteo de la ventana de la simulacion
-
+%% Initialize Graphic
 f1 = figure;
+subplot(2,2,1);  % Create subplot for drawing
 hold on;
 grid on;
-axis equal;
+
+axis equal
 xlabel('X (m)');
 ylabel('Y (m)');
-title('Reaction Wheel Inverted Pendulum');
-xlim([-0.6 0.6]);
-ylim([-0.4 0.6]);
+title('Reaction Wheel Inverted Pendulum')
 
 % Obtener las posiciones iniciales de los elementos
 [xw,yw] = PosCWheel(L,theta_0);
@@ -75,8 +71,40 @@ radious = plot([xw, xw_end],[yw, yw_end],'r','LineWidth',1.5);
 pendulum = plot([0, xw],[0, yw],'b','LineWidth',1.5); 
 wheel = rectangle('Position',pos_wheel,'Curvature',[1 1], 'LineWidth',1.5);
 
+axis equal
+axis(gca,'equal');
+xlim([-0.6 0.6]);
+ylim([-0.3 0.6]);
+
 % Mostrar el tiempo de la simulacion
 texto_handle = text(0.05, 0.95, 'Time: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
+
+%% Crear los graficos para cada cosa.
+subplot(2,2,2); 
+hold on;
+theta_plot = plot(time_values, theta_values, 'b');
+ref_plot = plot(time_values, ref_values, 'Color', [0.1725 0.4784 0.1059], 'LineStyle','--');
+xlabel('Time (s)');
+ylabel('Theta (rad)');
+title('Theta vs Time');
+grid on;
+
+subplot(2,2,3);
+hold on;
+error_plot = plot(time_values, error_values, 'Color', [0.6350 0.0780 0.1840]);
+xlabel('Time (s)');
+ylabel('Error (rad)');
+title('Error vs Time');
+grid on;
+
+subplot(2,2,4);
+hold on;
+tc_plot = plot(time_values, tc_values, 'Color', [0.8500 0.3250 0.0980]);
+xlabel('Time (s)');
+ylabel('Torque (Nm)');
+title('Control Signal vs Time');
+grid on;
+
 
 %% Parametros de la simulacion
 
@@ -85,7 +113,7 @@ tiempo = 0; % Tiempo inicial
 
 %% Parametros del ruido
 Wp = 50; % Frecuencia de la onda sinusoidal
-Psin = 0; % Ganancia onda sinusoidal
+Psin = 1; % Ganancia onda sinusoidal
 Pimp = 0; % Magnitud impulso 
 
 
@@ -96,7 +124,7 @@ while tiempo < 5
     time_texto = ['Time: ', num2str(tiempo)];
 
     % Esperar un poco antes de comenzar la simulacion
-    if tiempo < 0.5
+    if tiempo < 0.05
         % Dibujar
         set(texto_handle, 'String', time_texto);  
         set(pendulum,'XData',[0, xw],'YData',[0, yw]);
@@ -138,7 +166,6 @@ while tiempo < 5
     % Calculo de la entrada al sistema
     tin = tc + tp;
 
-
     % Integracion discreta de las variables dinamicas
     [~,ftheta] = ode45(@(t,y) pendulumODE(t,y,Jt,Mt,tin),[0 tspan], vtheta_0);
     [~,fbeta] = ode45(@(t,y) wheelODE(t,y,Jw,tin),[0 tspan], vbeta_0);
@@ -163,8 +190,15 @@ while tiempo < 5
     error_values = [error_values, error_prev];
     theta_values = [theta_values, vtheta_0(1)];
     tc_values = [tc_values, tc];
-    pert_values = [pert_values, tp];
     time_values = [time_values, tiempo];
+    pert_values = [pert_values, tp];
+
+    % Update theta values for the plot
+
+    set(theta_plot, 'XData', time_values, 'YData', theta_values);
+    set(ref_plot, 'XData', time_values, 'YData', ref_values);
+    set(error_plot, 'XData', time_values, 'YData', error_values);
+    set(tc_plot, 'XData', time_values, 'YData', tc_values);
 
     % Dibujar
     set(texto_handle, 'String', time_texto);
@@ -178,18 +212,8 @@ end
 
 % Mostrar graficos globales.
 figure(2);
-plot(time_values,theta_values,'b',time_values,ref_values,'r--');
-title('Theta vs tiempo')
-figure(3);
-plot(time_values,tc_values);
-title('control vs tiempo')
-figure(4);
-plot(time_values, pert_values)
-title('perturbacion vs tiempo')
-figure(5);
-Z = 0 * ones(1, length(time_values));
-plot(time_values, error_values, time_values,Z,'r--');
-title('error vs tiempo');
+plot(time_values, pert_values);
+title('perturbacion vs tiempo');
 
 %% Funciones que permiten calcular la posicion de los elementos del sistema. 
 function [x_cwheel, y_cwheel] = PosCWheel(arm,theta)

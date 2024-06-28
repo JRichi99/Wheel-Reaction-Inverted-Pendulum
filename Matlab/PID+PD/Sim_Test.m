@@ -24,6 +24,17 @@ agp = 1;
 agi = 1;
 agd = 1;
 
+
+% Almacenar variables en el tiepo
+
+ref_values = [];
+error_values = [];
+theta_values = [];
+tc_values = [];
+pert_values = [];
+time_values = [];
+
+
 % Condiciones iniciales del sistema
 theta_0 = deg2rad(180);
 ref = deg2rad(0);
@@ -36,17 +47,6 @@ dbeta_0 = 0;
 vtheta_0 = [theta_0 dtheta_0];
 vbeta_0 =[beta_0 dbeta_0];
 
-% Almacenar variables en el tiepo
-
-ref_values = [ref];
-error_values = [ref-theta_0];
-theta_values = [theta_0];
-tc_values = [tin];
-pert_values = [0];
-time_values = [0];
-
-
-
 % Condiciones iniciales del error
 error_prev = 0;
 integral_error = 0;
@@ -54,16 +54,15 @@ integral_error = 0;
 %% Seteo simulacion
 % Seteo de la ventana de la simulacion
 
-%% Initialize Graphic
 f1 = figure;
-subplot(2,2,1);  % Create subplot for drawing
 hold on;
 grid on;
-
-axis equal
+axis equal;
 xlabel('X (m)');
 ylabel('Y (m)');
-title('Reaction Wheel Inverted Pendulum')
+title('Reaction Wheel Inverted Pendulum');
+xlim([-0.6 0.6]);
+ylim([-0.4 0.6]);
 
 % Obtener las posiciones iniciales de los elementos
 [xw,yw] = PosCWheel(L,theta_0);
@@ -76,49 +75,8 @@ radious = plot([xw, xw_end],[yw, yw_end],'r','LineWidth',1.5);
 pendulum = plot([0, xw],[0, yw],'b','LineWidth',1.5); 
 wheel = rectangle('Position',pos_wheel,'Curvature',[1 1], 'LineWidth',1.5);
 
-axis equal
-axis(gca,'equal');
-xlim([-0.6 0.6]);
-ylim([-0.1 0.6]);
-
 % Mostrar el tiempo de la simulacion
 texto_handle = text(0.05, 0.95, 'Time: 0', 'Units', 'normalized', 'FontSize', 12, 'FontWeight', 'bold');
-
-
-subplot(2,2,2);  % Create subplot for theta vs time
-hold on;
-theta_plot = plot(time_values, theta_values, 'b');
-ref_plot = plot(time_values, ref_values, 'Color', [0.1725 0.4784 0.1059], 'LineStyle','--');
-xlabel('Time (s)');
-ylabel('Theta (rad)');
-title('Theta vs Time');
-grid on;
-
-subplot(2,2,3);
-hold on;
-error_plot = plot(time_values, error_values, 'Color', [0.6350 0.0780 0.1840]);
-xlabel('Time (s)');
-ylabel('Error (rad)');
-title('Error vs Time');
-grid on;
-
-subplot(2,2,4);
-hold on;
-control_signal_plot = plot(time_values, torque_values, 'Color', [0.8500 0.3250 0.0980]);
-ylim([-torque_limit torque_limit]);
-yticks(-torque_limit : ceil((torque_limit*2)/10): torque_limit);
-xlabel('Time (s)');
-ylabel('Torque (Nm)');
-title('Control Signal vs Time');
-grid on;
-
-
-
-
-
-
-
-
 
 %% Parametros de la simulacion
 
